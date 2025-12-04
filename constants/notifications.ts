@@ -19,7 +19,7 @@ export async function registerForPushNotifications() {
       name: "default",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
-      lightColor: "blue",
+      lightColor: "#3b82f6",
     });
   }
 
@@ -42,18 +42,16 @@ export async function scheduleNotification(
   body: string,
   seconds?: number
 ) {
+    const trigger = typeof seconds === "number"
+    ? { seconds, channelId: NOTIFICATION_CHANNEL_ID }
+    : null; 
+
   await Notifications.scheduleNotificationAsync({
     content: {
       title,
       body,
       sound: true,
     },
-    trigger:
-      seconds && typeof seconds === "number"
-        ? {
-            seconds,
-            channelId: NOTIFICATION_CHANNEL_ID,
-          }
-        : null,
+    trigger
   });
 }
